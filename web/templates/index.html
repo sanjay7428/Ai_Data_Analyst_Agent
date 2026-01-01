@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Data Analyst Agent</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        function showLoader() {
+            document.getElementById("loader").style.display = "block";
+        }
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h1>🤖 Autonomous AI Data Analyst</h1>
+    <p class="subtitle">Upload data once. Ask unlimited questions. Get instant insights.</p>
+
+    <!-- Dataset Status -->
+    {% if session.get("data_loaded") %}
+        <p class="status success">✅ Dataset loaded successfully</p>
+    {% else %}
+        <p class="status warning">⚠️ No dataset uploaded</p>
+    {% endif %}
+
+    <!-- Form -->
+    <form method="POST" enctype="multipart/form-data" onsubmit="showLoader()">
+        <div class="card">
+
+            {% if not session.get("data_loaded") %}
+                <label>📂 Upload CSV Dataset</label>
+                <input type="file" name="file" required>
+            {% else %}
+                <label>📂 Dataset already uploaded</label>
+                <input type="file" disabled>
+            {% endif %}
+
+            <label>❓ Ask a Question</label>
+            <input type="text" name="question"
+                   placeholder="e.g. Total sales by year"
+                   required>
+
+            <button type="submit">Analyze</button>
+        </div>
+    </form>
+
+    {% if session.get("data_loaded") %}
+    <form method="POST" action="/clear"
+        onsubmit="return confirm('Are you sure you want to clear the dataset?');">
+        <button type="submit" class="danger-btn">🗑 Clear Dataset</button>
+    </form>
+
+    {% endif %}
+
+    <!-- Loader -->
+    <div id="loader" class="loader">
+        <div class="spinner"></div>
+        <p>Analyzing your data...</p>
+    </div>
+
+    <!-- Results -->
+    {% if response %}
+    <div class="results">
+
+        <div class="result-box">
+            <h2>🧾 Generated SQL</h2>
+            <pre>{{ response.sql }}</pre>
+        </div>
+
+        <div class="result-box">
+            <h2>📊 Query Result</h2>
+            <pre>{{ response.result }}</pre>
+        </div>
+
+        <div class="result-box">
+            <h2>🧠 Explanation</h2>
+            <p>{{ response.explanation }}</p>
+        </div>
+
+        {% if response.chart %}
+        <div class="result-box">
+            <h2>📈 Visualization</h2>
+            <canvas id="resultChart"></canvas>
+        </div>
+
+        <script>
+            console.log("Visualization script loaded");
+
+            const chartPayload = JSON.parse('{{ response.chart | tojson | safe }}');
+            console.log("CHART PAYLOAD FROM BACKEND:", chartPayload);
+
+            if (!chartPayload) {
+                console.error("No chart payload received");
+            } else if (!chartPayload.labels || chartPayload.labels.length === 0) {
+                console.error("No labels in chart payload");
+            } else if (!chartPayload.datasets || chartPayload.datasets.length === 0) {
+                console.error("No datasets in chart payload");
+            } else {
+                const canvas = document.getElementById("resultChart");
+                if (!canvas) {
+                    console.error("Canvas not found");
+                } else {
+                    const ctx = canvas.getContext("2d");
+
+                    new Chart(ctx, {
+                        type: chartPayload.type,
+                        data: {
+                            labels: chartPayload.labels,
+                            datasets: chartPayload.datasets.map((ds, i) => ({
+                                label: ds.label,
+                                data: ds.data,
+                                backgroundColor: "rgba(29, 38, 113, 0.7)",
+                                borderColor: "#1d2671",
+                                borderWidth: 2
+                       }))
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            console.log("Chart rendered successfully");
+        }
+    }
+        </script>
+        {% endif %}
+
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>

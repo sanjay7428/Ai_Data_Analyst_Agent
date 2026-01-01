@@ -1,0 +1,172 @@
+/* Global */
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(120deg, #1d2671, #c33764);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 75%;
+    margin: auto;
+    background: #ffffff;
+    padding: 30px;
+    margin-top: 40px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Headings */
+h1 {
+    text-align: center;
+    color: #1d2671;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Status badges */
+.status {
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.success {
+    background: #e6fffa;
+    color: #065f46;
+    border: 1px solid #99f6e4;
+}
+
+.warning {
+    background: #fff7ed;
+    color: #9a3412;
+    border: 1px solid #fed7aa;
+}
+
+/* Card */
+.card {
+    background: #f9fafc;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+/* Form */
+label {
+    font-weight: bold;
+    margin-top: 15px;
+    display: block;
+    color: #333;
+}
+
+input {
+    padding: 12px;
+    width: 100%;
+    margin-top: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 15px;
+}
+
+input:focus {
+    border-color: #007bff;
+}
+
+input:disabled {
+    background: #e5e7eb;
+    cursor: not-allowed;
+}
+
+/* Buttons */
+button {
+    margin-top: 20px;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    background: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Danger button (Clear dataset) */
+.danger-btn {
+    background: #dc2626;
+    margin-top: 10px;
+}
+
+.danger-btn:hover {
+    background: #b91c1c;
+}
+
+/* Loader */
+.loader {
+    display: none;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #ddd;
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    margin: auto;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Results */
+.results {
+    margin-top: 30px;
+}
+
+.result-box {
+    background: #f4f6f8;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border-left: 6px solid #1d2671;
+}
+
+.result-box h2 {
+    margin-top: 0;
+    color: #1d2671;
+}
+
+/* Code blocks */
+pre {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    border: 1px solid #e5e7eb;
+    font-size: 14px;
+}
+canvas {
+    width: 100% !important;
+    height: 400px !important;
+}
+
